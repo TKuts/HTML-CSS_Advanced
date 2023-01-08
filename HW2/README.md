@@ -1,73 +1,49 @@
-# Сборка проекта на Gulp 4
+## Завдання
 
-Быстро настроить сборку вашего проекта на Gulp и писать код на:
+Зверстати макет сайту в використовуючи три макети: 320px, 768px та 1200px, з використанням препроцесора SCSS та зборкою проєкту за допомогою менеджера задач Gulp. Дедлайн для виконання цього домашнього завдання - 1 тиждень після четвертого заняття даного модуля.
 
-- HTML, PUG
-- CSS, SCSS, SASS, LESS, STYLUS
-- Java Script, Type Script, Coffee Script
+#### Технічні вимоги до верстки
+- Вам видається [макет](https://www.figma.com/file/OMxGUCGeJ18yGvPOL1awVQ/320px?node-id=0%3A1) сайту в трьох варіантах - 320 пікселів, 768 пікселів та 1200 пікселів.
+- Верстка повинна бути зроблена з урахуванням принципів адаптивної верстки, тобто всі блоки/колонки повинні змінювати своє взаємне розташування коли роздільна здатність екрану стає занадто малою, щоб вони могли розташовуватися на одній лінії. Загальне правило: "Якщо блоки вже не можуть розташовуватися поруч так, як на декстопній версії, то вони повинні бути такими, як у планшетній/мобільній версії макета".
+- Для верстки ви маєте використовувати препроцесор SCSS з такими нюансами:
+    - використовуйте найпоширеніші інструменти препроцесорів: `змінні`, `міксини` та `&`;
+    - розділіть css-код вашого проекту на кілька окремих scss-файлів (наприклад, змінні в один файл, міксини - в інший, стилі для шапки сайту - в третій, і т.д.), тобто створіть структуру проєкту і об'єднайте їх за допомогою інструкції `@import`.
+- При роздільній здатності екрана 768 пікселів або менше верхнє меню має стати випадаючим при кліку на іконку меню у верхньому правому кутку, як показано на версії макета `320px-dropdown_menu`.
+- Секція з Інстаграм-фото - зверніть увагу, що фото не стають один під одного при зменшенні екрана, а їх стає більше, і на роздільній здатності 768 пікселів у назві секції з'являється другий напис "GOT TO OUR INSTAGRAM PAGE".
 
-## Функционал сборки
+#### Збірка проєкту:
+- Проект повинен збиратися за допомогою `Gulp`
+- У корені проекту має бути дві папки - `src` та `dist`, а також файл `index.html`
+- Стилі та скрипт в `index.html` повинні бути підключені з папки `dist`
+- Папка `src` повинна містити всі робочі файли, в яких ви писатимете код (папки `scss`, `js`, `img`)
+- Вміст папки `dist` має генеруватися автоматично шляхом конвертації та копіювання файлів, що знаходяться в папці `src`
+- Необхідно налаштувати два основні робочі завдання для `Gulp`:
+    - `dev`
+    - `build`
+- Робоче завдання `build` повинно включати такі завдання:
+   - очищення папки `dist`;
+  - компіляція `scss` файлів у `css`;
+  - Додавання вендорних префіксів до CSS властивостей для підтримки останніх кількох версій кожного з браузерів;
+  - видалення невикористовуваного CSS-коду;
+  - конкатенація всіх `js` файлів в один `scripts.min.js` та його мініфікація;
+  - копіювання мініфікованих підсумкових `styles.min.css` та `scripts.min.js` файлів у папку `dist`;
+  - оптимізація картинок та копіювання їх у папку `dist/img`;
+ - Робоче завдання `dev` повинно включати такі завдання:
+    - Запуск сервера та подальше відстеження змін `*.js` та `*.scss` файлів у папці `src`;
+    - При зміні - перезбірка та копіювання об'єднаних та мініфікованих файлів `styles.min.css` та `scripts.min.js` в папку `dist`, перезавантаження вашої html-сторінки.
+ - При збірці проєкту можна використовувати будь-які пакети, але більшість потрібного функціоналу ви знайдете в наступних:
+   - gulp
+   - gulp-sass
+   - browser-sync
+   - gulp-js-minify
+   - gulp-uglify
+   - gulp-clean-css
+   - gulp-clean
+   - gulp-concat
+   - gulp-imagemin
+   - gulp-autoprefixer
 
-- компиляция препроцессора PUG
-- минификация HTML
-- компиляция препроцессоров LESS, SASS, STYLUS
-- минификация CSS
-- автоматическое добавление префиксов CSS
-- транспиляция языков Type Script и Coffee Script
-- преобразования кода ECMAScript 2015 + в обратно совместимую версию JavaScript с помощью Babel
-- минификация JavaScript
-- объединение нескольких файлов JavaScript в один
-- сжатие изображений
-- отслеживание новых изображений, которые еще не были сжаты
-- отслеживание изменений в файлах и автоматический запуск повторной обработки
-- генерация sourcemaps
-- отображение размеров файлов в терминале
-- локальный сервер с автоматическим обновлением страницы при изменении файлов
-
-## Input
-
-|                |    HTML     |              Styles              |      Scripts      |      Images      |
-| :------------- | :---------: | :------------------------------: | :---------------: | :--------------: |
-| **Каталог**    |    src/     |           src/styles/            |   src/scripts/    |     src/img/     |
-| **Расширение** | .html, .pug | .css, .sass, .scss, .less, .styl | .js, .ts, .coffee | .jpg, .png, .gif |
-
-## Output
-
-|          | HTML  |          CSS           |     JavaScript      |  Images   |
-| :------- | :---: | :--------------------: | :-----------------: | :-------: |
-| **Путь** | dist/ | dist/css/style.min.css | dist/js/main.min.js | dist/img/ |
-
-## Зупуск:
-
-1. Скачать все файлы проекта
-2. В терминале перейти в каталог проекта
-3. Выполнить команду: npm i (должен быть установлен node.js)
-4. Создать каталоги и файлы
-5. Выполнить команду: gulp (запуск таска default)
-
-## Используемые NPM пакеты
-
-[gulp](https://www.npmjs.com/package/gulp) Сборщик Gulp  
-[gulp-htmlmin](https://www.npmjs.com/package/gulp-htmlmin) Минификация HTML файлов  
-[gulp-pug](https://www.npmjs.com/package/gulp-pug) Pug препроцессор HTML кода  
-[gulp-less](https://www.npmjs.com/package/gulp-less) Компиляция Less файлов  
-[gulp-stylus](https://www.npmjs.com/package/gulp-stylus) Компиляция Styl файлов  
-[sass](https://www.npmjs.com/package/sass) Компилятор Sass  
-[gulp-sass](https://www.npmjs.com/package/gulp-sass) Компиляция Sass и Scss файлов  
-[gulp-uglify](https://www.npmjs.com/package/gulp-uglify) Сжатие и оптимизация Java Script кода  
-[gulp-coffee](https://www.npmjs.com/package/gulp-coffee) Преобразует Coffee Script в Java Script  
-[gulp-typescript](https://www.npmjs.com/package/gulp-typescript) Преобразует Type Script в Java Script  
-[typescript](https://www.npmjs.com/package/typescript) Язык Type Script  
-[gulp-babel](https://www.npmjs.com/package/gulp-babel) Преобразует Java Script в старый стандарт  
-[@babel/core](https://www.npmjs.com/package/@babel/core) Ядро Babel  
-[@babel/preset-env](https://www.npmjs.com/package/@babel/preset-env) Пресет для компиляции Babel  
-[gulp-clean-css](https://www.npmjs.com/package/gulp-clean-css) Минификация и оптимизация CSS файлов  
-[del](https://www.npmjs.com/package/del) Удаление каталогов и файлов  
-[gulp-sourcemaps](https://www.npmjs.com/package/gulp-sourcemaps) Карта строк кода для инструментов разработчика  
-[gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) Автоматическое добавление префиксов в CSS  
-[gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений  
-[gulp-concat](https://www.npmjs.com/package/gulp-concat) Объединение нескольких файлов в один  
-[gulp-newer](https://www.npmjs.com/package/gulp-newer) Отслеживание только новых файлов  
-[gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы  
-[gulp-size](https://www.npmjs.com/package/gulp-size) Отображение информации о размерах файлов в терминале  
-[browser-sync](https://browsersync.io/docs/gulp) Автоматическое обновление сайта при изменении файлов
+#### Література:
+- [Gulp 4.0](https://andreyolegovich.ru/IT/gulp/)
+- [Препроцесори](https://dan-it.gitlab.io/fe-book/advanced_frontend/lesson10_preprocessors/preprocessors.html)
+- [CSS3-медіазапити](https://html5book.ru/css3-mediazaprosy/)
